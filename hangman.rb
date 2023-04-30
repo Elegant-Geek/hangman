@@ -1,6 +1,4 @@
-# check if file exists
-# puts File.exists?('words.txt')
-
+# puts WORDBANK.select {|word| word.length <= 5}
 
 WORDBANK = []
 File.readlines('words.txt').each do |line|
@@ -13,23 +11,33 @@ File.readlines('words.txt').each do |line|
 end
 puts "The wordbank has #{WORDBANK.length} entries."
 
-
-
-
 class Game
   def initialize(name="hangman")
     @name = name
     puts "New game called '#{@name}' created."
   end
-  def test()
-    # puts WORDBANK.select {|word| word.length <= 5}
-  
+  def show_display(displ)
+    p displ.join(' ')
   end
+  def generate_guesses(secret_word)
+    if secret_word.length >= 9
+      @guesses = 10
+    else
+      @guesses = 7
+    end
+  end
+
   def play_game()
     # store the secret word in an instance variable that captures the output from the select_word() module method
     @secret_word = WORDBANK.sample
-    puts "The word to guess has been selected (#{@secret_word.length} letters)."
+    # display variable itself must be updated for every place in the array, so only join things to update the display in the console not on the display variable itself!
+    @display = Array.new(@secret_word.length, "_")
+    show_display(@display)
+    puts "The word to guess is #{@secret_word.length} letters."
     puts "THE SECRET WORD IS '#{@secret_word}'."
+    generate_guesses(@secret_word)
+
+    puts "You have up to #{@guesses} incorrect guesses."
   end
 end
 
