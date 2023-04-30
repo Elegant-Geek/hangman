@@ -14,18 +14,9 @@ end
 puts "The wordbank has #{WORDBANK.length} entries."
 
 
-module Words
-  # select a random word from the WORDBANK:
-  # note: the private is needed here so you can't call gamename.select_word from the console!
-  private
-  def select_word
-    # remove the newline break from the chosen word
-    chosen_word = WORDBANK.sample
-  end
-end
+
 
 class Game
-  include Words
   def initialize(name="hangman")
     @name = name
     puts "New game called '#{@name}' created."
@@ -36,7 +27,7 @@ class Game
   end
   def play_game()
     # store the secret word in an instance variable that captures the output from the select_word() module method
-    @secret_word = select_word()
+    @secret_word = WORDBANK.sample
     puts "The word to guess has been selected (#{@secret_word.length} letters)."
     puts "THE SECRET WORD IS '#{@secret_word}'."
   end
