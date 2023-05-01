@@ -26,6 +26,15 @@ class Game
       @guesses_amount = 7
     end
   end
+  def replay()
+    puts "Play again? (Y/N)"
+    answer = gets.to_s.upcase.chomp
+    if ((answer == "Y" || answer == "YES"))
+    play_game()
+    else      
+      puts "Thanks for playing!"
+    end
+  end
   def play_rounds(word, display, guesses_amount)
     @guesses = []
     @incorrect_guesses = []
@@ -92,7 +101,7 @@ class Game
     end
     # ^ biggest loop (each round)
     puts "Save Game? (Y/N)"
-    puts "Play Again? (Y/N)"
+    replay()
 
   end
 
