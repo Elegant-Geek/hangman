@@ -21,10 +21,64 @@ class Game
   end
   def generate_guesses(secret_word)
     if secret_word.length >= 9
-      @guesses = 10
+      @guesses_amount = 10
     else
-      @guesses = 7
+      @guesses_amount = 7
     end
+  end
+  def play_rounds(word, display, guesses_amount)
+    @guesses = []
+    @incorrect_guesses = []
+    # unless the number of INCORRECT guesses exceeds the number "guesses_amount", keep looping
+    loop do
+      show_display(display)
+      puts "Incorrect letters:" unless @incorrect_guesses.empty?
+      p @incorrect_guesses unless @incorrect_guesses.empty?
+      loop do
+        puts "guess a letter"
+        # grab first letter only
+        @guess = gets.chomp.to_s.downcase
+        if @guess == 'quit'
+          puts "GOODBYE"
+          break
+        else
+          # if quit is not typed then grab the first letter
+          @guess = @guess[0]
+        end
+        if @guess.match(/[A-z]/)
+        # puts "valid guess of '#{@guess}'."
+        break
+        else 
+          puts "invalid guess of '#{@guess}'."
+        end
+      end
+      # ^ little loop
+      # re-loop if guess is already made
+      if @guesses.include?(@guess) && @guess != 'quit'
+        puts "YOU HAVE ALREADY GUESSED THE LETTER '#{@guess}'."
+      elsif @guess == 'quit'
+        puts "GOODBYE AGAIN"
+        break
+      elsif word.split('').any? { |item| item == @guess }
+        puts "#{@guess} exists!"
+        # split the word to iterate
+        word.split('').each_with_index do |item, index|
+          # if it matches to guess, update the display with that letter!
+          if item == @guess
+            display[index] = @guess
+          end
+        end
+      else
+        puts "No '#{@guess}'."
+        @incorrect_guesses << @guess
+      end
+      # regardless if right or wrong, add the valid guess to an array of guesses
+      @guesses << @guess
+      # if quit, word is guessed, or limit exceeded, exit
+
+    end
+    # ^ biggest loop (each round)
+
   end
 
   def play_game()
@@ -36,8 +90,9 @@ class Game
     puts "The word to guess is #{@secret_word.length} letters."
     puts "THE SECRET WORD IS '#{@secret_word}'."
     generate_guesses(@secret_word)
+    puts "You have up to #{@guesses_amount} incorrect guesses."
+    play_rounds(@secret_word, @display, @guesses_amount)
 
-    puts "You have up to #{@guesses} incorrect guesses."
   end
 end
 
