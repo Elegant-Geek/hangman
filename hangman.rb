@@ -71,13 +71,28 @@ class Game
       else
         puts "No '#{@guess}'."
         @incorrect_guesses << @guess
+        if (@incorrect_guesses.length) == (guesses_amount - 1)
+          puts "WARNING: You have one incorrect guess left!"
+        end
       end
       # regardless if right or wrong, add the valid guess to an array of guesses
       @guesses << @guess
-      # if quit, word is guessed, or limit exceeded, exit
+      # if quit, word is guessed, or limit exceeded, exit (quit condition is already accounted for)
+      if display.join() == word
+        puts "YOU WIN! The word was '#{word}'."
+        break
+      elsif
+        @incorrect_guesses.length >= guesses_amount
+        puts "YOU LOSE! The word was '#{word}'." 
+        break
+      else
+        #keeps looping
+      end
 
     end
     # ^ biggest loop (each round)
+    puts "Save Game? (Y/N)"
+    puts "Play Again? (Y/N)"
 
   end
 
@@ -92,7 +107,6 @@ class Game
     generate_guesses(@secret_word)
     puts "You have up to #{@guesses_amount} incorrect guesses."
     play_rounds(@secret_word, @display, @guesses_amount)
-
   end
 end
 
