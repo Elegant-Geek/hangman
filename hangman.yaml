@@ -1,18 +1,27 @@
 --- !ruby/object:Game
 name: hangman
-secret_word: fight
+secret_word: positioning
 display:
-- f
+- p
+- o
+- s
 - i
-- g
-- h
 - t
-guesses_amount: 7
+- i
+- o
+- n
+- i
+- n
+- g
+guesses_amount: 10
 guesses:
-- f
+- p
+- o
+- s
 - i
-- g
-- h
 - t
+- i
+- n
+- g
 incorrect_guesses: []
-guess: t
+guess: g

@@ -16,13 +16,14 @@ def load_game()
   loaded_game = YAML.load(saved)
   saved.close
   puts loaded_game
+  puts loaded_game.inspect
   loaded_game
+
 else
 puts "Could not load game. Creating a new game."
 game = Game.new()
   end
 end
-
 
 puts "The wordbank has #{WORDBANK.length} entries."
 class Game
@@ -82,7 +83,6 @@ end
         # grab first letter only
         @guess = gets.chomp.to_s.downcase
         if @guess == 'quit'
-          puts "GOODBYE"
           break
         else
           # if quit is not typed then grab the first letter
@@ -100,7 +100,6 @@ end
       if @guesses.include?(@guess) && @guess != 'quit'
         puts "YOU HAVE ALREADY GUESSED THE LETTER '#{@guess}'."
       elsif @guess == 'quit'
-        puts "GOODBYE AGAIN"
         break
       elsif word.split('').any? { |item| item == @guess }
         puts "#{@guess} exists!"
@@ -145,7 +144,7 @@ end
     @display = Array.new(@secret_word.length, "_")
     # show_display(@display)
     puts "The word to guess is #{@secret_word.length} letters."
-    puts "THE SECRET WORD IS '#{@secret_word}'."
+    # puts "THE SECRET WORD IS '#{@secret_word}'."
     generate_guesses(@secret_word)
     puts "You have up to #{@guesses_amount} incorrect guesses."
     play_rounds(@secret_word, @display, @guesses_amount)
@@ -159,12 +158,11 @@ answer = gets.to_s.upcase.chomp
     if ((answer == "Y" || answer == "YES"))
     # if answer is yes, then check if file exists then load it. if file DNE, load new game with message 'no saved game found, starting new game.'
     game = load_game()
-    # enter where you left off
-   puts game
+
+    puts "This feature is currently in development (as to how to 'resume play' after importing all of the saved data)."
     else      
     # if not loaded, then do the command below (NOTE: play_game will fall outside of the conditional)
     game = Game.new()
     game.play_game()
-
-  end
+    end
 
