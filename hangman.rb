@@ -1,3 +1,4 @@
+# 4.30.23 5:50pm – 11:40pm 
 require 'yaml'
 WORDBANK = []
 File.readlines('words.txt').each do |line|
@@ -61,7 +62,7 @@ end
   def save_game()
     # if saved game YES (Copy replays conditional), then export it to a file called "game_output." if you later load in a saved game that was completed ensure no errors happen
     # if saved game no, then don't overrwite any existing game_output file. just do nothing besides 'game not saved. goodbye'
-    puts "Save Game? (Y/N)"
+    puts "Save Game? (Y/N) Note: this will overwrite any previously saved game."
     answer = gets.to_s.upcase.chomp
     if ((answer == "Y" || answer == "YES"))
     # INFO FOR SAVING DATA GOES HERE
@@ -102,7 +103,7 @@ end
       elsif @guess == 'quit'
         break
       elsif word.split('').any? { |item| item == @guess }
-        puts "#{@guess} exists!"
+        puts "'#{@guess}' exists!"
         # split the word to iterate
         word.split('').each_with_index do |item, index|
           # if it matches to guess, update the display with that letter!
