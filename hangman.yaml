@@ -1,0 +1,18 @@
+--- !ruby/object:Game
+name: hangman
+secret_word: fight
+display:
+- f
+- i
+- g
+- h
+- t
+guesses_amount: 7
+guesses:
+- f
+- i
+- g
+- h
+- t
+incorrect_guesses: []
+guess: t

@@ -1,3 +1,4 @@
+require 'yaml'
 WORDBANK = []
 File.readlines('words.txt').each do |line|
   # remove any new line break things because the program will think it counts as a character! 
@@ -7,6 +8,22 @@ File.readlines('words.txt').each do |line|
     WORDBANK << line.gsub("\n",'')
   end
 end
+
+def load_game()
+  if File.exists?('hangman.yaml')
+  filename = 'hangman.yaml'
+  saved = File.open(File.join(Dir.pwd, filename), 'r')
+  loaded_game = YAML.load(saved)
+  saved.close
+  puts loaded_game
+  loaded_game
+else
+puts "Could not load game. Creating a new game."
+game = Game.new()
+  end
+end
+
+
 puts "The wordbank has #{WORDBANK.length} entries."
 class Game
   def initialize(name="hangman")
@@ -23,6 +40,14 @@ class Game
       @guesses_amount = 7
     end
   end
+
+def save_file()
+  filename = @name
+  return false unless filename
+  # Using self here so it acts like game.save_file where game is passed into the dump. It works!
+  dump = YAML.dump(self)
+  File.open(File.join(Dir.pwd, "#{filename}.yaml"), 'w') { |file| file.write dump }
+end
   def replay()
     puts "Play again? (Y/N)"
     answer = gets.to_s.upcase.chomp
@@ -38,7 +63,8 @@ class Game
     puts "Save Game? (Y/N)"
     answer = gets.to_s.upcase.chomp
     if ((answer == "Y" || answer == "YES"))
-    #### INFO FOR SAVING DATA GOES HERE
+    # INFO FOR SAVING DATA GOES HERE
+    self.save_file()
     else      
       puts "Ok, the game data will not be saved."
     end
@@ -129,10 +155,16 @@ end
 puts "WELCOME TO HANGMAN!"
 # here is where you load in the game
 puts "Load a saved game? (Y/N)"
-# if answer is yes, then check if file exists then load it. if file DNE, load new game with message 'no saved game found, starting new game.'
+answer = gets.to_s.upcase.chomp
+    if ((answer == "Y" || answer == "YES"))
+    # if answer is yes, then check if file exists then load it. if file DNE, load new game with message 'no saved game found, starting new game.'
+    game = load_game()
+    # enter where you left off
+   puts game
+    else      
+    # if not loaded, then do the command below (NOTE: play_game will fall outside of the conditional)
+    game = Game.new()
+    game.play_game()
 
-# if not loaded, then do the command below (NOTE: play_game will fall outside of the conditional)
-game = Game.new()
+  end
 
-game.play_game
-puts game
