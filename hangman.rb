@@ -1,5 +1,3 @@
-# puts WORDBANK.select {|word| word.length <= 5}
-
 WORDBANK = []
 File.readlines('words.txt').each do |line|
   # remove any new line break things because the program will think it counts as a character! 
@@ -10,7 +8,6 @@ File.readlines('words.txt').each do |line|
   end
 end
 puts "The wordbank has #{WORDBANK.length} entries."
-
 class Game
   def initialize(name="hangman")
     @name = name
@@ -33,6 +30,17 @@ class Game
     play_game()
     else      
       puts "Thanks for playing!"
+    end
+  end
+  def save_game()
+    # if saved game YES (Copy replays conditional), then export it to a file called "game_output." if you later load in a saved game that was completed ensure no errors happen
+    # if saved game no, then don't overrwite any existing game_output file. just do nothing besides 'game not saved. goodbye'
+    puts "Save Game? (Y/N)"
+    answer = gets.to_s.upcase.chomp
+    if ((answer == "Y" || answer == "YES"))
+    #### INFO FOR SAVING DATA GOES HERE
+    else      
+      puts "Ok, the game data will not be saved."
     end
   end
   def play_rounds(word, display, guesses_amount)
@@ -100,9 +108,8 @@ class Game
 
     end
     # ^ biggest loop (each round)
-    puts "Save Game? (Y/N)"
+    save_game()
     replay()
-
   end
 
   def play_game()
@@ -110,7 +117,7 @@ class Game
     @secret_word = WORDBANK.sample
     # display variable itself must be updated for every place in the array, so only join things to update the display in the console not on the display variable itself!
     @display = Array.new(@secret_word.length, "_")
-    show_display(@display)
+    # show_display(@display)
     puts "The word to guess is #{@secret_word.length} letters."
     puts "THE SECRET WORD IS '#{@secret_word}'."
     generate_guesses(@secret_word)
@@ -119,5 +126,13 @@ class Game
   end
 end
 
+puts "WELCOME TO HANGMAN!"
+# here is where you load in the game
+puts "Load a saved game? (Y/N)"
+# if answer is yes, then check if file exists then load it. if file DNE, load new game with message 'no saved game found, starting new game.'
+
+# if not loaded, then do the command below (NOTE: play_game will fall outside of the conditional)
 game = Game.new()
+
 game.play_game
+puts game
